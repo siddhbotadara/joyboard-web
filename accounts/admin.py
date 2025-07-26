@@ -1,0 +1,24 @@
+from django.contrib import admin
+from django.contrib import admin
+from .models import PlayerRecord, GameSession, UserProfile
+
+@admin.register(PlayerRecord)
+class PlayerRecordAdmin(admin.ModelAdmin):
+    list_display = ('username', 'level_reached', 'time_taken', 'input_used')
+    search_fields = ('username', 'input_used')
+    list_filter = ('level_reached', 'input_used')
+
+@admin.register(GameSession)
+class GameSessionAdmin(admin.ModelAdmin):
+    list_display = ('username', 'level_reached', 'time_taken')
+    search_fields = ('username',)
+    list_filter = ('level_reached',)
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'description',)
+
+# Register your models here.
+admin.site.site_header = "JoyBoard Admin Panel"
+admin.site.site_title = "JoyBoard Admin"
+admin.site.index_title = "Welcome to JoyBoard Mr. Admin"
