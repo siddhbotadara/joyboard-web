@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% block title %}How To Play{% endblock %}
 
 {% block content %}
 <section class="relative flex flex-col items-center pt-20 pb-20 px-4 bg-[#000000] space-y-28 max-w-6xl mx-auto">
@@ -37,7 +38,7 @@
     <div class="relative w-44 h-44 group flex-shrink-0 rounded-2xl">
       <div class="absolute inset-0 rounded-2xl border-4 border-white animate-spin-slow bg-gradient-to-r from-[#FCA311] via-transparent to-[#FCA311] bg-[length:400%_400%] blur-sm"></div>
       <div class="relative z-10 w-full h-full bg-[#1B263B] rounded-2xl p-1 shadow-[0_0_25px_#FCA311aa] transition-all duration-500 hover:scale-[1.05]">
-        <img src="{% static 'Images For Website/Maps.png' %}" alt="Enemy Image" class="w-full h-full object-cover rounded-2xl border-white border-4" />
+        <img src="{% static 'Images For Website/Maps.png' %}" alt="Maps Image" class="w-full h-full object-cover rounded-2xl border-white border-4" />
       </div>
       <div class="absolute top-0 right-0 px-2 py-0.5 text-xs font-bold bg-gradient-to-r from-[#FCA311] to-[#FFBA3A] text-[#14213D] rounded-bl-2xl rounded-tr-2xl shadow-md">BOSS</div>
     </div>
@@ -54,7 +55,7 @@
     <div class="relative w-44 h-44 group flex-shrink-0 rounded-2xl">
       <div class="absolute inset-0 rounded-2xl border-4 border-white animate-spin-slow bg-gradient-to-r from-[#FCA311] via-transparent to-[#FCA311] bg-[length:400%_400%] blur-sm"></div>
       <div class="relative z-10 w-full h-full bg-[#1B263B] rounded-2xl p-1 shadow-[0_0_25px_#FCA311aa] transition-all duration-500 hover:scale-[1.05]">
-        <img src="{% static 'Images For Website/zombie.png' %}" alt="Player Image" class="w-full h-full object-cover rounded-2xl border-white border-4" />
+        <img src="{% static 'Images For Website/zombie.png' %}" alt="Zombie Image" class="w-full h-full object-cover rounded-2xl border-white border-4" />
       </div>
       <div class="absolute top-0 right-0 px-2 py-0.5 text-xs font-bold bg-gradient-to-r from-[#FCA311] to-[#FFBA3A] text-[#14213D] rounded-bl-2xl rounded-tr-2xl shadow-md">LVL 8</div>
     </div>
@@ -71,7 +72,7 @@
     <div class="relative w-44 h-44 group flex-shrink-0 rounded-2xl">
       <div class="absolute inset-0 rounded-2xl border-4 border-white animate-spin-slow bg-gradient-to-r from-[#FCA311] via-transparent to-[#FCA311] bg-[length:400%_400%] blur-sm"></div>
       <div class="relative z-10 w-full h-full bg-[#1B263B] rounded-2xl p-1 shadow-[0_0_25px_#FCA311aa] transition-all duration-500 hover:scale-[1.05]">
-        <img src="{% static 'Images For Website/collectable.png' %}" alt="Enemy Image" class="w-full h-full object-cover rounded-2xl border-white border-4" />
+        <img src="{% static 'Images For Website/collectable.png' %}" alt="Collectable Image" class="w-full h-full object-cover rounded-2xl border-white border-4" />
       </div>
       <div class="absolute top-0 right-0 px-2 py-0.5 text-xs font-bold bg-gradient-to-r from-[#FCA311] to-[#FFBA3A] text-[#14213D] rounded-bl-2xl rounded-tr-2xl shadow-md">BOSS</div>
     </div>
@@ -88,7 +89,7 @@
     <div class="relative w-44 h-44 group flex-shrink-0 rounded-2xl">
       <div class="absolute inset-0 rounded-2xl border-4 border-white animate-spin-slow bg-gradient-to-r from-[#FCA311] via-transparent to-[#FCA311] bg-[length:400%_400%] blur-sm"></div>
       <div class="relative z-10 w-full h-full bg-[#1B263B] rounded-2xl p-1 shadow-[0_0_25px_#FCA311aa] transition-all duration-500 hover:scale-[1.05]">
-        <img src="{% static 'Images For Website/lava.png' %}" alt="Player Image" class="w-full h-full object-cover rounded-2xl border-white border-4" />
+        <img src="{% static 'Images For Website/lava.png' %}" alt="Lava Image" class="w-full h-full object-cover rounded-2xl border-white border-4" />
       </div>
       <div class="absolute top-0 right-0 px-2 py-0.5 text-xs font-bold bg-gradient-to-r from-[#FCA311] to-[#FFBA3A] text-[#14213D] rounded-bl-2xl rounded-tr-2xl shadow-md">LVL 8</div>
     </div>
@@ -105,7 +106,7 @@
     <div class="relative w-44 h-44 group flex-shrink-0 rounded-2xl">
       <div class="absolute inset-0 rounded-2xl border-4 border-white animate-spin-slow bg-gradient-to-r from-[#FCA311] via-transparent to-[#FCA311] bg-[length:400%_400%] blur-sm"></div>
       <div class="relative z-10 w-full h-full bg-[#1B263B] rounded-2xl p-1 shadow-[0_0_25px_#FCA311aa] transition-all duration-500 hover:scale-[1.05]">
-        <img src="{% static 'Images For Website/restart.png' %}" alt="Enemy Image" class="w-full h-full object-cover rounded-2xl border-white border-4" />
+        <img src="{% static 'Images For Website/restart.png' %}" alt="Restart Image" class="w-full h-full object-cover rounded-2xl border-white border-4" />
       </div>
       <div class="absolute top-0 right-0 px-2 py-0.5 text-xs font-bold bg-gradient-to-r from-[#FCA311] to-[#FFBA3A] text-[#14213D] rounded-bl-2xl rounded-tr-2xl shadow-md">BOSS</div>
     </div>
@@ -122,7 +123,7 @@
     <div class="relative w-44 h-44 group flex-shrink-0 rounded-2xl">
       <div class="absolute inset-0 rounded-2xl border-4 border-white animate-spin-slow bg-gradient-to-r from-[#FCA311] via-transparent to-[#FCA311] bg-[length:400%_400%] blur-sm"></div>
       <div class="relative z-10 w-full h-full bg-[#1B263B] rounded-2xl p-1 shadow-[0_0_25px_#FCA311aa] transition-all duration-500 hover:scale-[1.05]">
-        <img src="{% static 'Images For Website/timer.png' %}" alt="Player Image" class="w-full h-full object-cover rounded-2xl border-white border-4" />
+        <img src="{% static 'Images For Website/timer.png' %}" alt="Timer Image" class="w-full h-full object-cover rounded-2xl border-white border-4" />
       </div>
       <div class="absolute top-0 right-0 px-2 py-0.5 text-xs font-bold bg-gradient-to-r from-[#FCA311] to-[#FFBA3A] text-[#14213D] rounded-bl-2xl rounded-tr-2xl shadow-md">LVL 8</div>
     </div>
@@ -139,7 +140,7 @@
     <div class="relative w-44 h-44 group flex-shrink-0 rounded-2xl">
       <div class="absolute inset-0 rounded-2xl border-4 border-white animate-spin-slow bg-gradient-to-r from-[#FCA311] via-transparent to-[#FCA311] bg-[length:400%_400%] blur-sm"></div>
       <div class="relative z-10 w-full h-full bg-[#1B263B] rounded-2xl p-1 shadow-[0_0_25px_#FCA311aa] transition-all duration-500 hover:scale-[1.05]">
-        <img src="{% static 'Images For Website/trophy.png' %}" alt="Enemy Image" class="w-full h-full object-cover rounded-2xl border-white border-4" />
+        <img src="{% static 'Images For Website/trophy.png' %}" alt="Trophy Image" class="w-full h-full object-cover rounded-2xl border-white border-4" />
       </div>
       <div class="absolute top-0 right-0 px-2 py-0.5 text-xs font-bold bg-gradient-to-r from-[#FCA311] to-[#FFBA3A] text-[#14213D] rounded-bl-2xl rounded-tr-2xl shadow-md">BOSS</div>
     </div>
