@@ -18,6 +18,16 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 
+print("DB config:")
+print("PG_NAME:", os.getenv('PG_NAME'))
+print("PG_USER:", os.getenv('PG_USER'))
+print("PG_PASSWORD is set:", bool(os.getenv('PG_PASSWORD')))
+print("PG_HOST:", os.getenv('PG_HOST'))
+print("PG_PORT:", os.getenv('PG_PORT'))
+print("DEBUG:", os.getenv('JOYBOARD_DEBUG'))
+print("ALLOWED_HOSTS:", os.getenv('JOYBOARD_ALLOWED_HOSTS'))
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -80,12 +90,12 @@ WSGI_APPLICATION = 'BackEnd.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('MYSQL_NAME'),
-        'USER': os.getenv('MYSQL_USER'),
-        'PASSWORD': os.getenv('MYSQL_PASSWORD'),
-        'HOST': os.getenv('MYSQL_HOST'),
-        'PORT': os.getenv('MYSQL_PORT', '3306'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('PG_NAME'),
+        'USER': os.getenv('PG_USER'),
+        'PASSWORD': os.getenv('PG_PASSWORD'),
+        'HOST': os.getenv('PG_HOST'),
+        'PORT': os.getenv('PG_PORT', '5432'),
     }
 }
 
