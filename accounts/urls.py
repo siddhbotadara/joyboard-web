@@ -5,6 +5,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 import os
 
+print("API_LOGIN_PATH:", settings.API_LOGIN_PATH)
+print("API_SUBMIT_SCORE_PATH:", settings.API_SUBMIT_SCORE_PATH)
+
+
 urlpatterns = [
     path('', views.index, name='home'),                 
     path('base/', views.base, name='base'),  
@@ -25,7 +29,7 @@ urlpatterns = [
     path('download/', views.download_page, name='download-html'),
 
     path(settings.API_LOGIN_PATH, views.api_login, name='api-login'),  
-    path(settings.API_SUBMI_SCORE_PATH, views.submit_score, name='submit_score'),
+    path(settings.API_SUBMIT_SCORE_PATH, views.submit_score, name='submit_score'),
 ]
 
 if settings.DEBUG:

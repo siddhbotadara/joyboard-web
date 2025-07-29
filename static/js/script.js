@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const autoplayIntervalTime = 4250;
 
   let currentIndex = 0;
-  const totalSlides = slider.children.length;
+  const totalSlides = slider ? slider.children.length : 0;
   let autoplayInterval;
 
   function updateSlider() {
@@ -25,36 +25,36 @@ document.addEventListener("DOMContentLoaded", () => {
     startAutoplay();
   }
 
-  nextbtn.addEventListener("click", () => {
-    currentIndex = (currentIndex + 1) % totalSlides;
-    updateSlider();
-    resetAutoplay();
-  });
+  if (nextbtn) {
+    nextbtn.addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateSlider();
+      resetAutoplay();
+    });
+  }
 
-  prevbtn.addEventListener("click", () => {
-    currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-    updateSlider();
-    resetAutoplay();
-  });
+  if (prevbtn) {
+    prevbtn.addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+      updateSlider();
+      resetAutoplay();
+    });
+  }
 
-  startAutoplay();
+  if (slider && prevbtn && nextbtn) {
+    startAutoplay();
+  }
 });
 
-function togglepassword(inputId, iconId) {
+// Toggle function for password
+function togglePassword(inputId, iconId) {
   const pswd = document.getElementById(inputId);
   const btn = document.getElementById(iconId);
 
-  const isHidden = pswd.type === 'password';
-  pswd.type = isHidden ? 'text' : 'password';
-  btn.textContent = isHidden ? '🙈' : '👁️';
+  if (!pswd || !btn) return;
+
+  const isHidden = pswd.type === "password";
+  pswd.type = isHidden ? "text" : "password";
+
+  btn.innerHTML = isHidden ? "🙈" : "👁️";
 }
-
-function togglePassword() {
-  const pswd = document.getElementById('password');
-  const btn = document.getElementById('toggleIcon');
-
-  const isHidden = pswd.type === 'password';
-  pswd.type = isHidden ? 'text' : 'password';
-  btn.textContent = isHidden ? '🙈' : '👁️';
-}
-

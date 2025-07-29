@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv('JOYBOARD_SECRET_KEY')
 SECRET_API_KEY = os.getenv('SECRET_API_KEY')
 
 API_LOGIN_PATH = os.getenv('API_LOGIN_PATH')
-API_SUBMI_SCORE_PATH = os.getenv('API_SUBMIT_SCORE_PATH')
+API_SUBMIT_SCORE_PATH = os.getenv('API_SUBMIT_SCORE_PATH')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('JOYBOARD_DEBUG', 'False') == 'True'
