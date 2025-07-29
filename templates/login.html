@@ -6,18 +6,16 @@
   <title>Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="{% static 'css/output.css' %}" rel="stylesheet">
-  <!-- templates/includes/font.html -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap">
-
+  <!-- Google Fonts etc. -->
   <link rel="icon" href="{% static 'Images For Website/favicon_circle.ico' %}" sizes="128x128" type="image/x-icon">
-  <script src="{% static 'js/script.js' %}"></script>
-
+  <script defer src="{% static 'js/script.js' %}"></script>
+  <style>
+    #toggleIcon {
+      font-size: 1.25rem;
+      line-height: 1;
+      user-select: none;
+    }
+  </style>
 </head>
 <body class="relative min-h-screen flex items-center justify-center bg-black">
 
@@ -31,27 +29,20 @@
   <div class="relative z-10 w-full max-w-md px-2">
     <form id="login-form" method="POST" class="space-y-8 bg-gray-900 bg-opacity-80 p-8 rounded-4xl shadow-2xl backdrop-blur-sm">
       {% csrf_token %}
-        <div class="space-y-2 mb-6">
-            <a href="/" class="tracking-[0.2em] uppercase font-logo flex justify-center text-[#FCA311] font-extrabold text-[32px] hover:underline hover:scale-105 transition-transform">
-                JoyBoard
-            </a>
-            <h3 class="text-white text-center text-[20px] font-bold font-section">
-                Login
-            </h3>
-        </div>
-        <input type="hidden" name="next" value="{{ next }}">
+      <div class="space-y-2 mb-6">
+        <a href="/" class="tracking-[0.2em] uppercase font-logo flex justify-center text-[#FCA311] font-extrabold text-[32px] hover:underline hover:scale-105 transition-transform">JoyBoard</a>
+        <h3 class="text-white text-center text-[20px] font-bold font-section">Login</h3>
+      </div>
+      <input type="hidden" name="next" value="{{ next }}">
       <div class="text-white flex flex-col space-y-4">
         <input type="text" name="username" placeholder="Username*" required
                class="bg-gray-800 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-white-500 font-body">
         <div class="relative">
           <input type="password" name="password" id="password" placeholder="Password*" required
                 class="bg-gray-800 px-4 py-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-white-500 font-body pr-10">
-
           <button type="button" id="toggleIcon"
                   onclick="togglePassword()"
-                  class="absolute right-3 top-2 text-white hover:text-[#FCA311] text-xl">
-            👁️
-          </button>
+                  class="absolute right-3 top-2 text-white hover:text-[#FCA311] text-xl">👁️</button>
         </div>
         <br>
         <button id="login-btn" type="submit"
@@ -75,23 +66,26 @@
   </div>
 
 <script>
-  function togglePassword() {
-    const passInput = document.getElementById('password');
-    passInput.type = passInput.type === 'password' ? 'text' : 'password';
-  }
+function togglePassword() {
+  const pswd = document.getElementById('password');
+  const btn = document.getElementById('toggleIcon');
+  const isHidden = pswd.type === 'password';
+  pswd.type = isHidden ? 'text' : 'password';
+  btn.textContent = isHidden ? '🙈' : '👁️';
+}
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("login-form");
-    const btn = document.getElementById("login-btn");
-    const spinner = document.getElementById("spinner");
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("login-form");
+  const btn = document.getElementById("login-btn");
+  const spinner = document.getElementById("spinner");
 
-    form.addEventListener("submit", () => {
-      spinner.classList.remove("hidden");
-      btn.disabled = true;
-      btn.classList.add("opacity-50", "cursor-not-allowed");
-      btn.querySelector("span").textContent = "Logging in...";
-    });
+  form.addEventListener("submit", () => {
+    spinner.classList.remove("hidden");
+    btn.disabled = true;
+    btn.classList.add("opacity-50", "cursor-not-allowed");
+    btn.querySelector("span").textContent = "Logging in...";
   });
+});
 </script>
 
 </body>

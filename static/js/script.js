@@ -39,22 +39,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
   startAutoplay();
 });
-
-function togglepassword(inputId, iconId) {
-  const pswd = document.getElementById(inputId);
-  const btn = document.getElementById(iconId);
-
-  const isHidden = pswd.type === 'password';
-  pswd.type = isHidden ? 'text' : 'password';
-  btn.textContent = isHidden ? '🙈' : '👁️';
-}
-
-function togglePassword() {
-  const pswd = document.getElementById('password');
-  const btn = document.getElementById('toggleIcon');
-
-  const isHidden = pswd.type === 'password';
-  pswd.type = isHidden ? 'text' : 'password';
-  btn.textContent = isHidden ? '🙈' : '👁️';
-}
-
