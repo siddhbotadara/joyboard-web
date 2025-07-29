@@ -117,29 +117,24 @@ def dashboard_page(request):
     user = request.user
     username = user.username
 
-    # All Sessions played by the user
     sessions = GameSession.objects.filter(username=username)
-
-    # Games played
+    highest_level = sessions.aggregate(Max('level_completed'))['level_completed__max'] or 0
     games_played = sessions.count()
 
-    # Highest level reached
-    highest_level = sessions.aggregate(Max('level_reached'))['level_reached__max'] or 0
+    if highest_level < 5:
+        fastest_time = None
+        fastest_time_locked = True
+    else:
+        sessions_level_5 = sessions.filter(level_completed__gte=5)
+        fastest_time = sessions_level_5.aggregate(Min('time_taken'))['time_taken__min'] or 0
+        fastest_time_locked = False
 
-    # Fastest Time
-    fastest_time = sessions.aggregate(Min('time_taken'))['time_taken__min'] or 0
-
-    # Calculate average time per level:
-    # total_time / total_levels across all sessions
-    sessions_with_levels = sessions.filter(level_reached__gt=0)
-
+    sessions_with_levels = sessions.filter(level_completed__gt=0)
     total_time = sessions_with_levels.aggregate(Sum('time_taken'))['time_taken__sum'] or 0
-    total_levels = sessions_with_levels.aggregate(Sum('level_reached'))['level_reached__sum'] or 1  # avoiding div by zero
-
+    total_levels = sessions_with_levels.aggregate(Sum('level_completed'))['level_completed__sum'] or 1
     average_level_time = round(total_time / total_levels, 2) if total_levels else 0
 
-    # Current rank
-    leaderboard = PlayerRecord.objects.all().order_by('-level_reached', 'time_taken')
+    leaderboard = PlayerRecord.objects.all().order_by('-level_completed', 'time_taken')
     current_rank = None
     for i, entry in enumerate(leaderboard, start=1):
         if entry.username == username:
@@ -147,14 +142,14 @@ def dashboard_page(request):
             break
 
     highest_rank = current_rank or "—"
-
     profile, _ = UserProfile.objects.get_or_create(user=request.user)
 
     context = {
         'user_profile': profile,
         'games_played': games_played,
         'highest_level': highest_level,
-        'fastest_time': round(fastest_time, 2),
+        'fastest_time': fastest_time,
+        'fastest_time_locked': fastest_time_locked,
         'average_time': average_level_time,
         'current_rank': current_rank or "—",
         'highest_rank': highest_rank,
@@ -162,6 +157,7 @@ def dashboard_page(request):
     }
 
     return render(request, 'dashboard.html', context)
+
 
 @login_required
 def set_description(request):
@@ -179,7 +175,7 @@ def set_description(request):
     })
 
 def leaderboard_page(request):
-    records = PlayerRecord.objects.all().order_by('-level_reached', 'time_taken')
+    records = PlayerRecord.objects.all().order_by('-level_completed', 'time_taken')
 
     leaderboard = []
     for record in records:
@@ -190,7 +186,7 @@ def leaderboard_page(request):
             'username': record.username,
             'description': profile.description if profile else "",
             'time_taken': record.time_taken,
-            'level_reached': record.level_reached,
+            'level_completed': record.level_completed,
             'input_used': record.input_used,
         })
 
@@ -274,20 +270,23 @@ def api_login(request):
 def submit_score(request):
     username = request.data.get('username')
     time_taken = float(request.data.get('time_taken'))
-    level_reached = int(request.data.get('level_reached'))
+    level_completed = int(request.data.get('level_completed'))
     input_used = request.data.get('input_used')
+
+    if level_completed < 0 or time_taken < 0 or time_taken > 5000:
+        return Response({'error': 'Invalid data.'}, status=400)
 
     try:
         record = PlayerRecord.objects.get(username=username)
 
-        if level_reached > record.level_reached:
-            record.level_reached = level_reached
+        if level_completed > record.level_completed:
+            record.level_completed = level_completed
             record.time_taken = time_taken
             record.input_used = input_used
             record.save()
             message = 'Record updated (better level)!'
         
-        elif level_reached == record.level_reached and time_taken < record.time_taken:
+        elif level_completed == record.level_completed and time_taken < record.time_taken:
             record.time_taken = time_taken
             record.input_used = input_used
             record.save()
@@ -300,7 +299,7 @@ def submit_score(request):
         PlayerRecord.objects.create(
             username=username,
             time_taken=time_taken,
-            level_reached=level_reached,
+            level_completed=level_completed,
             input_used=input_used
         )
         message = 'New player record created!'
@@ -309,7 +308,7 @@ def submit_score(request):
     GameSession.objects.create(
         username=username,
         time_taken=time_taken,
-        level_reached=level_reached,
+        level_completed=level_completed,
     )
 
     return Response({'message': message}, status=201)

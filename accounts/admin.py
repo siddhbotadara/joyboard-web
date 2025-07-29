@@ -4,15 +4,15 @@ from .models import PlayerRecord, GameSession, UserProfile
 
 @admin.register(PlayerRecord)
 class PlayerRecordAdmin(admin.ModelAdmin):
-    list_display = ('username', 'level_reached', 'time_taken', 'input_used')
+    list_display = ('username', 'level_completed', 'time_taken', 'input_used')
     search_fields = ('username', 'input_used')
-    list_filter = ('level_reached', 'input_used')
+    list_filter = ('level_completed', 'input_used')
 
 @admin.register(GameSession)
 class GameSessionAdmin(admin.ModelAdmin):
-    list_display = ('username', 'level_reached', 'time_taken')
+    list_display = ('username', 'level_completed', 'time_taken')
     search_fields = ('username',)
-    list_filter = ('level_reached',)
+    list_filter = ('level_completed',)
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):

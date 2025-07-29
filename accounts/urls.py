@@ -1,6 +1,9 @@
 #urls.py - accounts
 from django.urls import path
 from accounts import views
+from django.conf import settings
+from django.conf.urls.static import static
+import os
 
 urlpatterns = [
     path('', views.index, name='home'),                 
@@ -24,3 +27,6 @@ urlpatterns = [
     path('api/login/', views.api_login, name='api-login'),  
     path('api/submit-score/', views.submit_score, name='submit_score'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=os.path.join(settings.BASE_DIR, 'static'))
