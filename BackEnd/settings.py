@@ -25,9 +25,14 @@ load_dotenv(BASE_DIR / ".env")
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('JOYBOARD_SECRET_KEY')
 
+# SECURITY WARNING: this is secret api key do not share!
+SECRET_API_KEY = os.getenv('SECRET_API_KEY')
+
+API_LOGIN_PATH = os.getenv('API_LOGIN_PATH')
+API_SUBMI_SCORE_PATH = os.getenv('API_SUBMIT_SCORE_PATH')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('JOYBOARD_DEBUG', 'False') == 'True'
-
 ALLOWED_HOSTS = os.getenv('JOYBOARD_ALLOWED_HOSTS', '').split(',')
 
 
@@ -140,6 +145,13 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',  # Only allow JSON output
+    )
+}
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

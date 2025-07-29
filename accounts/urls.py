@@ -24,8 +24,8 @@ urlpatterns = [
     path('news/', views.news_page, name='news-html'),
     path('download/', views.download_page, name='download-html'),
 
-    path('api/login/', views.api_login, name='api-login'),  
-    path('api/submit-score/', views.submit_score, name='submit_score'),
+    path(settings.API_LOGIN_PATH, views.api_login, name='api-login'),  
+    path(settings.API_SUBMI_SCORE_PATH, views.submit_score, name='submit_score'),
 ]
 
 if settings.DEBUG:

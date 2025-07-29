@@ -268,14 +268,19 @@ def api_login(request):
 
 @api_view(['POST'])
 def submit_score(request):
+    api_key = request.headers.get("Authorization", "").replace("Bearer ", "")
+    if api_key != settings.SECRET_API_KEY:
+        return Response({"error": "Unauthorized"}, status=401)
+
     username = request.data.get('username')
-    time_taken = float(request.data.get('time_taken'))
-    level_completed = int(request.data.get('level_completed'))
+    time_taken = float(request.data.get('time_taken', 0))
+    level_completed = int(request.data.get('level_completed', 0))
     input_used = request.data.get('input_used')
 
     if level_completed < 0 or time_taken < 0 or time_taken > 5000:
         return Response({'error': 'Invalid data.'}, status=400)
 
+    # --- Existing Logic ---
     try:
         record = PlayerRecord.objects.get(username=username)
 
@@ -285,16 +290,13 @@ def submit_score(request):
             record.input_used = input_used
             record.save()
             message = 'Record updated (better level)!'
-        
         elif level_completed == record.level_completed and time_taken < record.time_taken:
             record.time_taken = time_taken
             record.input_used = input_used
             record.save()
             message = 'Record updated (faster time)!'
-        
         else:
             message = 'No update. Previous record is better.'
-
     except PlayerRecord.DoesNotExist:
         PlayerRecord.objects.create(
             username=username,
@@ -304,7 +306,6 @@ def submit_score(request):
         )
         message = 'New player record created!'
 
-    print("Saving GameSession now...")
     GameSession.objects.create(
         username=username,
         time_taken=time_taken,
