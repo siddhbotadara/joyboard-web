@@ -313,3 +313,38 @@ def submit_score(request):
     )
 
     return Response({'message': message}, status=201)
+
+
+@api_view(['POST'])
+def get_config(request):
+    data = {
+        "MAX_LEVEL": settings.MAX_LEVEL,
+        "HORIZANTAL_ACC": settings.HORIZANTAL_ACC,
+        "HORIZANTAL_FRICTION": settings.HORIZANTAL_FRICTION,
+        "VERTICAL_ACC": settings.VERTICAL_ACC,
+        "VERTICAL_JUMP_SPEED": settings.VERTICAL_JUMP_SPEED,
+        "MAX_HORIZANTAL_SPEED": settings.MAX_HORIZANTAL_SPEED,
+        "TERM_VELOCITY": settings.TERM_VELOCITY,
+        "SHOOTING_SPEED": settings.SHOOTING_SPEED,
+        "BULLET_SPEED": settings.BULLET_SPEED,
+        "HEALTH_BAR_VALUE": settings.HEALTH_BAR_VALUE,
+        "IMMUNITY_BAR_VALUE": settings.IMMUNITY_BAR_VALUE,
+        "JUMP_IMMUNITY_COST": settings.JUMP_IMMUNITY_COST,
+        "BULLET_IMMUNITY_COST": settings.BULLET_IMMUNITY_COST,
+        "IMMUNITY_REGEN_RATE": settings.IMMUNITY_REGEN_RATE,
+        "LAVA_DAMAGE_AMOUNT": settings.LAVA_DAMAGE_AMOUNT,
+        "MAX_LAVA_DAMAGE_COOLDOWN": settings.MAX_LAVA_DAMAGE_COOLDOWN,
+        "ENEMY_SHOOT_RANGE": settings.ENEMY_SHOOT_RANGE,
+        "MIN_ENEMY_SHOOT_COOLDOWN": settings.MIN_ENEMY_SHOOT_COOLDOWN,
+        "MAX_ENEMY_SHOOT_COOLDOWN": settings.MAX_ENEMY_SHOOT_COOLDOWN,
+        "ENEMY_MELEE_DAMAGE": settings.ENEMY_MELEE_DAMAGE,
+        "ENEMY_BULLET_DAMAGE": settings.ENEMY_BULLET_DAMAGE,
+        "COLLECTABLE_SPAWN_ATTEMPTS": settings.COLLECTABLE_SPAWN_ATTEMPTS,
+        "COLLECTABLE_MIN_DIST_FROM_ENEMY_TILE": settings.COLLECTABLE_MIN_DIST_FROM_ENEMY_TILE,
+
+        "API_KEY":settings.SECRET_API_KEY,
+        "HOSTED_LOGIN_URL":settings.API_LOGIN_PATH,
+        "HOSTED_SUBMIT_URL":settings.API_SUBMIT_SCORE_PATH,
+
+    }
+    return Response(data)

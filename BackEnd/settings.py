@@ -22,6 +22,8 @@ load_dotenv(BASE_DIR / ".env")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
+# ------------------------------ API for web & pygame ------------------------------
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('JOYBOARD_SECRET_KEY')
 
@@ -30,6 +32,7 @@ SECRET_API_KEY = os.getenv('SECRET_API_KEY')
 
 API_LOGIN_PATH = os.getenv('API_LOGIN_PATH')
 API_SUBMIT_SCORE_PATH = os.getenv('API_SUBMIT_SCORE_PATH')
+API_GET_CONFIG = os.getenv('API_GET_CONFIG')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('JOYBOARD_DEBUG', 'False') == 'True'
@@ -161,3 +164,28 @@ EMAIL_PORT = 587
 #Email Configuration 
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+# ------------------------------ Pygame ------------------------------
+MAX_LEVEL = int(os.environ["MAX_LEVEL"])
+HORIZANTAL_ACC = float(os.environ["HORIZANTAL_ACC"])
+HORIZANTAL_FRICTION = float(os.environ["HORIZANTAL_FRICTION"])
+VERTICAL_ACC = float(os.environ["VERTICAL_ACC"])
+VERTICAL_JUMP_SPEED = int(os.environ["VERTICAL_JUMP_SPEED"])
+MAX_HORIZANTAL_SPEED = int(os.environ["MAX_HORIZANTAL_SPEED"])
+TERM_VELOCITY = int(os.environ["TERM_VELOCITY"])
+SHOOTING_SPEED = float(os.environ["SHOOTING_SPEED"])
+BULLET_SPEED = int(os.environ["BULLET_SPEED"])
+HEALTH_BAR_VALUE = int(os.environ["HEALTH_BAR_VALUE"])
+IMMUNITY_BAR_VALUE = int(os.environ["IMMUNITY_BAR_VALUE"])
+JUMP_IMMUNITY_COST = int(os.environ["JUMP_IMMUNITY_COST"])
+BULLET_IMMUNITY_COST = int(os.environ["BULLET_IMMUNITY_COST"])
+IMMUNITY_REGEN_RATE = float(os.environ["IMMUNITY_REGEN_RATE"])
+LAVA_DAMAGE_AMOUNT = int(os.environ["LAVA_DAMAGE_AMOUNT"])
+MAX_LAVA_DAMAGE_COOLDOWN = int(os.environ["MAX_LAVA_DAMAGE_COOLDOWN"])
+ENEMY_SHOOT_RANGE = int(os.environ["ENEMY_SHOOT_RANGE"])
+MIN_ENEMY_SHOOT_COOLDOWN = int(os.environ["MIN_ENEMY_SHOOT_COOLDOWN"])
+MAX_ENEMY_SHOOT_COOLDOWN = int(os.environ["MAX_ENEMY_SHOOT_COOLDOWN"])
+ENEMY_MELEE_DAMAGE = int(os.environ["ENEMY_MELEE_DAMAGE"])
+ENEMY_BULLET_DAMAGE = int(os.environ["ENEMY_BULLET_DAMAGE"])
+COLLECTABLE_SPAWN_ATTEMPTS = int(os.environ["COLLECTABLE_SPAWN_ATTEMPTS"])
+COLLECTABLE_MIN_DIST_FROM_ENEMY_TILE = int(os.environ["COLLECTABLE_MIN_DIST_FROM_ENEMY_TILE"])

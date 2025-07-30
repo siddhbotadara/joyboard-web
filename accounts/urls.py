@@ -30,6 +30,7 @@ urlpatterns = [
 
     path(settings.API_LOGIN_PATH, views.api_login, name='api-login'),  
     path(settings.API_SUBMIT_SCORE_PATH, views.submit_score, name='submit_score'),
+    path(settings.API_GET_CONFIG,views.get_config, name='get-config')
 ]
 
 if settings.DEBUG:
