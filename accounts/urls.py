@@ -27,6 +27,7 @@ urlpatterns = [
     path('description/', views.set_description, name='set_description'),
     path('news/', views.news_page, name='news-html'),
     path('download/', views.download_page, name='download-html'),
+    path('download/joyboard/', views.download_joyboard_zip, name='download_joyboard'),
 
     path(settings.API_LOGIN_PATH, views.api_login, name='api-login'),  
     path(settings.API_SUBMIT_SCORE_PATH, views.submit_score, name='submit_score'),

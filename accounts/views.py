@@ -10,6 +10,8 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
+from django.http import FileResponse, Http404
+import os
 
 def index(request):
     return render(request, 'index.html')
@@ -26,6 +28,16 @@ def news_page(request):
 @login_required(login_url='/login/')
 def download_page(request):
     return render(request,'download.html')
+
+def download_joyboard_zip(request):
+    file_path = os.path.join(settings.BASE_DIR, 'downloads', 'JOYBOARD.zip')
+    if os.path.exists(file_path):
+        return FileResponse(
+            open(file_path, 'rb'),
+            as_attachment=True,
+            filename='JOYBOARD.zip' 
+        )
+    raise Http404("File not found.")
 
 @login_required(login_url='/login/')
 def contact_page(request):
