@@ -17,3 +17,6 @@ Thumbs.db
 
 # Editor
 .vscode/
+
+# Download of the game
+downloads/

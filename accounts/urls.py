@@ -5,10 +5,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 import os
 
-print("API_LOGIN_PATH:", settings.API_LOGIN_PATH)
-print("API_SUBMIT_SCORE_PATH:", settings.API_SUBMIT_SCORE_PATH)
-
-
 urlpatterns = [
     path('', views.index, name='home'),                 
     path('base/', views.base, name='base'),  
