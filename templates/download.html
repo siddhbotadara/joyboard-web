@@ -28,7 +28,9 @@
       <div class="text-4xl mb-4 text-[#FCA311]">🪟</div>
       <h3 class="text-xl font-bold tracking-wide">Windows</h3>
       <p class="text-sm text-gray-400 mt-2 mb-6">Compatible with Windows 10 and 11 (32/64-bit)</p>
-      <a href="{% url 'download_joyboard' %}" download class="inline-block px-6 py-3 rounded-full bg-[#FCA311] text-black font-bold tracking-wide hover:bg-white transition-colors duration-300">
+      <a href="{% url 'download_joyboard' %}" 
+        onclick="showLoader()" 
+        class="inline-block px-6 py-3 rounded-full bg-[#FCA311] text-black font-bold tracking-wide hover:bg-white transition-colors duration-300 cursor-pointer">
         Download ZIP (50MB)
       </a>
     </div>
@@ -54,10 +56,67 @@
     </div>
 
   </div>
+  
+  <div id="loader-overlay" class="hidden">
+    <div class="loader-container">
+      <div class="spinner"></div>
+      <div class="loader-text">Downloading...</div>
+    </div>
+  </div>
 
   <!-- Footer -->
   <div class="mt-24 text-center text-sm text-gray-500 tracking-wide font-mono motion-safe:animate-fadeIn delay-500">
     © 2025 JoyBoard Inc. — Game differently.
   </div>
 </section>
+<script>
+  function showLoader() {
+    const loader = document.getElementById('loader-overlay');
+    loader.classList.remove('hidden');
+
+    // Auto-hide loader after 10 seconds
+    setTimeout(() => {
+      loader.classList.add('hidden');
+    }, 3000);
+  }
+</script>
+
+<style>
+  #loader-overlay {
+    position: fixed;
+    inset: 0; /* top:0; bottom:0; left:0; right:0 */
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  #loader-overlay.hidden {
+    display: none;
+  }
+
+  .loader-container {
+    text-align: center;
+    color: #FCA311;
+    font-weight: 700;
+    font-size: 1.5rem;
+    user-select: none;
+  }
+
+  {% comment %} Spinner {% endcomment %}
+  .spinner {
+    margin: 0 auto 20px;
+    width: 60px;
+    height: 60px;
+    border: 6px solid #FCA311;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+</style>
 {% endblock %}

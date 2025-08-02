@@ -146,6 +146,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Tell WhiteNoise to use compressed manifest storage for caching
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Getting Download Link
+SUPABASE_SIGNED_URL = os.getenv('SUPABASE_SIGNED_URL')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

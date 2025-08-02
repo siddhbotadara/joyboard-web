@@ -18,8 +18,6 @@ Thumbs.db
 # Editor
 .vscode/
 
-# Download of the game
-downloads/
 
 # Ignore all migration files in accounts app
 accounts/migrations/*.py
