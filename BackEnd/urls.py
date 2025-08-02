@@ -17,8 +17,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
 
 urlpatterns = [
-    path('owner/', admin.site.urls),
+    path(settings.ADMIN_PATH, admin.site.urls), # type: ignore
     path('', include('accounts.urls'))
 ]

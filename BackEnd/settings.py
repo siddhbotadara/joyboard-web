@@ -34,6 +34,9 @@ API_LOGIN_PATH = os.getenv('API_LOGIN_PATH')
 API_SUBMIT_SCORE_PATH = os.getenv('API_SUBMIT_SCORE_PATH')
 API_GET_CONFIG = os.getenv('API_GET_CONFIG')
 
+# Admin Dashboard Path
+ADMIN_PATH = os.getenv('ADMIN_PATH')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('JOYBOARD_DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = os.getenv('JOYBOARD_ALLOWED_HOSTS', '').split(',')
@@ -93,7 +96,7 @@ DATABASES = {
         'USER': os.getenv('PG_USER'),
         'PASSWORD': os.getenv('PG_PASSWORD'),
         'HOST': os.getenv('PG_HOST'),
-        'PORT': os.getenv('PG_PORT', '5432'),
+        'PORT': os.getenv('PG_PORT'),
     }
 }
 

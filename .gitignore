@@ -8,7 +8,7 @@ __pycache__/
 # Node
 node_modules/
 
-# Django static (regenerable)
+# Django static
 staticfiles/
 
 # System files
@@ -20,3 +20,9 @@ Thumbs.db
 
 # Download of the game
 downloads/
+
+# Ignore all migration files in accounts app
+accounts/migrations/*.py
+
+# But NOT the __init__.py file
+!accounts/migrations/__init__.py
