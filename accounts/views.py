@@ -307,7 +307,7 @@ def submit_score(request):
     input_used = request.data.get('input_used')
 
     # Step 1: Scanity check - simple example, customize as needed
-    if level_completed < 0 or level_completed > 5 or time_taken < 0 or time_taken > 20:
+    if level_completed < 0 or level_completed > 5 or time_taken < 0 or time_taken > 2000:
         # 2. Add to banned users if not exists
         if not BannedUser.objects.filter(username=username).exists():
             BannedUser.objects.create(
@@ -341,7 +341,7 @@ def submit_score(request):
             )
 
         # 4. Stop further processing
-        return Response({'error': 'Cheating detected. Your account has been banned.'}, status=403)
+        return Response({'error': 'Cheating detected. Your account has been banned. Kindly check your email, including spam, for details.'}, status=403)
 
     # Normal submit score logic
     try:
