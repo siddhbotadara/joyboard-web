@@ -297,7 +297,11 @@ def submit_score(request):
         return Response({"error": "Unauthorized"}, status=401)
 
     username = request.data.get('username')
-    email = user.email
+    try:
+        user = User.objects.get(username=username)
+        email = user.email
+    except User.DoesNotExist:
+        email = None
     time_taken = float(request.data.get('time_taken', 0))
     level_completed = int(request.data.get('level_completed', 0))
     input_used = request.data.get('input_used')
