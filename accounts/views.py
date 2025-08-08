@@ -1,11 +1,12 @@
 #views.py
 import requests
+from django_ratelimit.decorators import ratelimit
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login,logout,update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import PlayerRecord, GameSession, UserProfile
+from .models import PlayerRecord, GameSession, UserProfile, BannedUser
 from django.db.models import Max, Min, Sum
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -242,6 +243,14 @@ def signup_page(request):
         password = request.POST.get('password')
         confirm = request.POST.get('confirm_password')
 
+        # Check For Banned Accounts
+        if BannedUser.objects.filter(username=username).exists():
+            return render(request, 'signup.html', {'error': 'You are banned from signing up.'})
+        
+        if BannedUser.objects.filter(email=email).exists():
+            return render(request, 'signup.html', {'error': 'This email is banned.'})
+
+        # Check normal details for new user
         if User.objects.filter(username=username).exists():
             return render(request, 'signup.html', {'error': 'username already exists'})
         
@@ -250,7 +259,8 @@ def signup_page(request):
         
         if confirm != password:
             return render(request, 'signup.html', {'error': 'Passwords do not match'})
-
+        
+        # Create a user if clean 
         user = User.objects.create_user(username=username, email=email, password=password)
         user.first_name = firstname
         user.last_name = lastname
@@ -278,8 +288,8 @@ def api_login(request):
         return Response({'status': 'success', 'message': 'Login successful'})
     else:
         return Response({'status': 'error', 'message': 'Invalid username or password'}, status=401)
-    
 
+@ratelimit(key='post:username', rate="1/m", block=True)
 @api_view(['POST'])
 def submit_score(request):
     api_key = request.headers.get("Authorization", "").replace("Bearer ", "")
@@ -287,14 +297,49 @@ def submit_score(request):
         return Response({"error": "Unauthorized"}, status=401)
 
     username = request.data.get('username')
+    email = user.email
     time_taken = float(request.data.get('time_taken', 0))
     level_completed = int(request.data.get('level_completed', 0))
     input_used = request.data.get('input_used')
 
-    if level_completed < 0 or time_taken < 0 or time_taken > 5000:
-        return Response({'error': 'Invalid data.'}, status=400)
+    # Step 1: Scanity check - simple example, customize as needed
+    if level_completed < 0 or level_completed > 5 or time_taken < 0 or time_taken > 20:
+        # 2. Add to banned users if not exists
+        if not BannedUser.objects.filter(username=username).exists():
+            BannedUser.objects.create(
+                username=username,
+                email=email or '',
+            )
 
-    # --- Existing Logic ---
+        # 1. Delete user from PlayerRecord and Django auth_user
+        PlayerRecord.objects.filter(username=username).delete()
+        try:
+            user = User.objects.get(username=username)
+            user.delete()
+        except User.DoesNotExist:
+            pass
+
+        # 3. Send professional warning email (if email is present)
+        if email:
+            send_mail(
+                subject="Warning: Cheating Detected",
+                message=(
+                    f"Dear {username},\n\n"
+                    "We have detected suspicious activity from your account indicating possible cheating.\n"
+                    "If you believe this is an error, please contact us immediately.\n"
+                    "Otherwise, your account has been banned from our platform.\n\n"
+                    "Regards,\n"
+                    "The JoyBoard Team"
+                ),
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[email],
+                fail_silently=True,
+            )
+
+        # 4. Stop further processing
+        return Response({'error': 'Cheating detected. Your account has been banned.'}, status=403)
+
+    # Normal submit score logic
     try:
         record = PlayerRecord.objects.get(username=username)
 
@@ -327,7 +372,6 @@ def submit_score(request):
     )
 
     return Response({'message': message}, status=201)
-
 
 @api_view(['POST'])
 def get_config(request):

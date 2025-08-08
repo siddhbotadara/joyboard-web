@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import PlayerRecord, GameSession, UserProfile
+from .models import PlayerRecord, GameSession, UserProfile, BannedUser
 
 @admin.register(PlayerRecord)
 class PlayerRecordAdmin(admin.ModelAdmin):
@@ -16,6 +16,10 @@ class GameSessionAdmin(admin.ModelAdmin):
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'description',)
+
+@admin.register(BannedUser)
+class BannedUserAdmin(admin.ModelAdmin):
+    list_display = ('username','email')
 
 # Register your models here.
 admin.site.site_header = "JoyBoard Admin Panel"

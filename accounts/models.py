@@ -15,10 +15,13 @@ class GameSession(models.Model):
     level_completed = models.IntegerField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
 
+class BannedUser(models.Model):
+    username = models.CharField(max_length=150, unique=True)
+    email = models.EmailField(unique=True)
+
     def __str__(self):
-        return self.user.username
+        return getattr(self, 'user', None) or self.username or "BannedUser"
