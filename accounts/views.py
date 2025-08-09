@@ -349,7 +349,7 @@ def submit_score(request):
         )
 
     # Step 2: Check suspiciously low time for specific levels
-    if (level_completed == 1 and time_taken <= 10) or \
+    if (level_completed == 1 and time_taken <= 30) or \
     (level_completed == 2 and time_taken <= 28) or \
     (level_completed == 3 and time_taken <= 60) or \
     (level_completed == 4 and time_taken <= 100) or \
