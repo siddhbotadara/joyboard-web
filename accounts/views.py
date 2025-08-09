@@ -289,6 +289,40 @@ def api_login(request):
     else:
         return Response({'status': 'error', 'message': 'Invalid username or password'}, status=401)
 
+def ban_user(username, email=None):
+    # 2. Add to banned users if not exists
+    if not BannedUser.objects.filter(username=username).exists():
+        BannedUser.objects.create(
+            username=username,
+            email=email or '',
+        )
+
+    # 1. Delete user from PlayerRecord and Django auth_user
+    PlayerRecord.objects.filter(username=username).delete()
+    try:
+        user = User.objects.get(username=username)
+        user.delete()
+    except User.DoesNotExist:
+        pass
+
+    # 3. Send professional warning email (if email is present)
+    if email:
+        send_mail(
+            subject="Warning: Cheating Detected",
+            message=(
+                f"Dear {username},\n\n"
+                "We have detected suspicious activity from your account indicating possible cheating.\n"
+                "If you believe this is an error, please contact us immediately.\n"
+                "Otherwise, your account has been banned from our platform.\n\n"
+                "Regards,\n"
+                "The JoyBoard Team"
+            ),
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[email],
+            fail_silently=True,
+        )
+
+
 @ratelimit(key='post:username', rate="1/m", block=True)
 @api_view(['POST'])
 def submit_score(request):
@@ -306,42 +340,25 @@ def submit_score(request):
     level_completed = int(request.data.get('level_completed', 0))
     input_used = request.data.get('input_used')
 
-    # Step 1: Scanity check - simple example, customize as needed
+    # Step 1: Basic sanity check
     if level_completed < 0 or level_completed > 5 or time_taken < 0 or time_taken > 2000:
-        # 2. Add to banned users if not exists
-        if not BannedUser.objects.filter(username=username).exists():
-            BannedUser.objects.create(
-                username=username,
-                email=email or '',
-            )
+        ban_user(username, email)
+        return Response(
+            {'error': 'Cheating detected. Your account has been banned. Kindly check your email, including spam, for details.'},
+            status=403
+        )
 
-        # 1. Delete user from PlayerRecord and Django auth_user
-        PlayerRecord.objects.filter(username=username).delete()
-        try:
-            user = User.objects.get(username=username)
-            user.delete()
-        except User.DoesNotExist:
-            pass
-
-        # 3. Send professional warning email (if email is present)
-        if email:
-            send_mail(
-                subject="Warning: Cheating Detected",
-                message=(
-                    f"Dear {username},\n\n"
-                    "We have detected suspicious activity from your account indicating possible cheating.\n"
-                    "If you believe this is an error, please contact us immediately.\n"
-                    "Otherwise, your account has been banned from our platform.\n\n"
-                    "Regards,\n"
-                    "The JoyBoard Team"
-                ),
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[email],
-                fail_silently=True,
-            )
-
-        # 4. Stop further processing
-        return Response({'error': 'Cheating detected. Your account has been banned. Kindly check your email, including spam, for details.'}, status=403)
+    # Step 2: Check suspiciously low time for specific levels
+    if (level_completed == 1 and time_taken <= 10) or \
+    (level_completed == 2 and time_taken <= 28) or \
+    (level_completed == 3 and time_taken <= 60) or \
+    (level_completed == 4 and time_taken <= 100) or \
+    (level_completed == 5 and time_taken <= 165):
+        ban_user(username, email)
+        return Response(
+            {'error': 'Cheating detected. Your account has been banned. Kindly check your email, including spam, for details.'},
+            status=403
+        )
 
     # Normal submit score logic
     try:
